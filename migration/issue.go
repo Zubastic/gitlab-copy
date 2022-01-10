@@ -118,12 +118,31 @@ func (m *Migration) migrateIssue(issueID int) error {
 	if err != nil {
 		return fmt.Errorf("target: can't fetch issue: %s", err.Error())
 	}
-	tis, _, err := target.ListProjectIssues(tarProjectID, nil)
+
+	tis := make([]*glab.Issue, 0)
+	curPage := 1
+	optSort := "asc"
+	isopts := &glab.ListProjectIssuesOptions{Sort: &optSort, ListOptions: glab.ListOptions{PerPage: ResultsPerPage, Page: curPage}}
+	for {
+		issues, _, err := target.ListProjectIssues(srcProjectID, isopts)
+		if err != nil {
+			return err
+		}
+		if len(issues) == 0 {
+			break
+		}
+
+		for _, issue := range issues {
+			tis = append(tis, issue)
+		}
+		curPage++
+		isopts.Page = curPage
+	}
 	if err != nil {
 		return fmt.Errorf("target: can't fetch issue: %s", err.Error())
 	}
 	for _, t := range tis {
-		if issue.IID == t.IID {
+		if issue.IID == t.IID || issue.Title == t.Title {
 			if issue.State == "closed" {
 				event := "close"
 				_, _, err := target.UpdateIssue(tarProjectID, t.IID, &glab.UpdateIssueOptions{StateEvent: &event, Labels: issue.Labels})
