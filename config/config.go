@@ -68,14 +68,11 @@ func (c *Config) checkUserTokens() error {
 		if err := cl.SetBaseURL(c.DstPrj.ServerURL); err != nil {
 			return err
 		}
-		u, _, err := cl.Users.CurrentUser()
+		_, _, err := cl.Users.CurrentUser()
 		if err != nil {
 			return fmt.Errorf("Failed using the API with user '%s': %s", user, err.Error())
 		}
-		if u.Username != user {
-			return fmt.Errorf("Token %s matches user '%s', not '%s' as defined in the config file", token, u.Username, user)
-		}
 	}
-	fmt.Println("Tokens valid and mapping to expected users\n--")
+	fmt.Printf("Tokens valid and mapping to expected users\n--\n")
 	return nil
 }

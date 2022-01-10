@@ -17,6 +17,10 @@ func init() {
 	DefaultClient = new(Client)
 }
 
+func CreateNew() GitLaber {
+	return new(Client)
+}
+
 // New GitLab client.
 func (c *Client) New(httpClient *http.Client, token string) GitLaber {
 	c.client = glab.NewClient(httpClient, token)
@@ -29,6 +33,10 @@ func (c *Client) SetBaseURL(url string) error {
 
 func (c *Client) GetProject(id interface{}, options ...glab.OptionFunc) (*glab.Project, *glab.Response, error) {
 	return c.client.Projects.GetProject(id, options...)
+}
+
+func (c *Client) UploadFile(id interface{}, file string, options ...glab.OptionFunc) (*glab.ProjectFile, *glab.Response, error) {
+	return c.client.Projects.UploadFile(id, file, options...)
 }
 
 func (c *Client) CreateLabel(id interface{}, opt *glab.CreateLabelOptions, options ...glab.OptionFunc) (*glab.Label, *glab.Response, error) {
@@ -84,4 +92,8 @@ func (c *Client) UpdateIssue(pid interface{}, issue int, opt *glab.UpdateIssueOp
 
 func (c *Client) BaseURL() *url.URL {
 	return c.client.BaseURL()
+}
+
+func (c *Client) CurrentUser(opts ...glab.OptionFunc) (*glab.User, *glab.Response, error) {
+	return c.client.Users.CurrentUser(opts...)
 }

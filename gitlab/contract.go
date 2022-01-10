@@ -15,6 +15,7 @@ type GitLaber interface {
 	SetBaseURL(string) error
 	// Project
 	GetProject(interface{}, ...glab.OptionFunc) (*glab.Project, *glab.Response, error)
+	UploadFile(interface{}, string, ...glab.OptionFunc) (*glab.ProjectFile, *glab.Response, error)
 	// Labels
 	ListLabels(interface{}, *glab.ListLabelsOptions, ...glab.OptionFunc) ([]*glab.Label, *glab.Response, error)
 	CreateLabel(interface{}, *glab.CreateLabelOptions, ...glab.OptionFunc) (*glab.Label, *glab.Response, error)
@@ -30,6 +31,7 @@ type GitLaber interface {
 	DeleteIssue(interface{}, int, ...glab.OptionFunc) (*glab.Response, error)
 	// Users
 	ListUsers(*glab.ListUsersOptions, ...glab.OptionFunc) ([]*glab.User, *glab.Response, error)
+	CurrentUser(...glab.OptionFunc) (*glab.User, *glab.Response, error)
 	// Notes
 	ListIssueNotes(interface{}, int, *glab.ListIssueNotesOptions, ...glab.OptionFunc) ([]*glab.Note, *glab.Response, error)
 	CreateIssueNote(interface{}, int, *glab.CreateIssueNoteOptions, ...glab.OptionFunc) (*glab.Note, *glab.Response, error)

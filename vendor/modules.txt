@@ -1,0 +1,41 @@
+# github.com/davecgh/go-spew v1.1.1
+## explicit
+github.com/davecgh/go-spew/spew
+# github.com/go-yaml/yaml v2.1.0+incompatible
+## explicit
+github.com/go-yaml/yaml
+# github.com/golang/protobuf v1.1.0
+## explicit
+github.com/golang/protobuf/proto
+# github.com/google/go-querystring v0.0.0-20170111101155-53e6ce116135
+## explicit
+github.com/google/go-querystring/query
+# github.com/pmezard/go-difflib v1.0.0
+## explicit
+github.com/pmezard/go-difflib/difflib
+# github.com/stretchr/testify v1.2.2
+## explicit
+github.com/stretchr/testify/assert
+github.com/stretchr/testify/require
+# github.com/xanzy/go-gitlab v0.54.3
+## explicit
+github.com/xanzy/go-gitlab
+# golang.org/x/net v0.0.0-20180530234432-1e491301e022
+## explicit
+golang.org/x/net/context
+golang.org/x/net/context/ctxhttp
+# golang.org/x/oauth2 v0.0.0-20180603041954-1e0a3fa8ba9a
+## explicit
+golang.org/x/oauth2
+golang.org/x/oauth2/internal
+# google.golang.org/appengine v1.0.0
+## explicit
+google.golang.org/appengine/internal
+google.golang.org/appengine/internal/base
+google.golang.org/appengine/internal/datastore
+google.golang.org/appengine/internal/log
+google.golang.org/appengine/internal/remote_api
+google.golang.org/appengine/internal/urlfetch
+google.golang.org/appengine/urlfetch
+# gopkg.in/yaml.v2 v2.2.8
+## explicit

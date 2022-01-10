@@ -7,3 +7,4 @@ cmd/gitlab-copy/version.go
 dist
 public
 ssl
+.idea
