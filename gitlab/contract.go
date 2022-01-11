@@ -16,6 +16,7 @@ type GitLaber interface {
 	// Project
 	GetProject(interface{}, ...glab.OptionFunc) (*glab.Project, *glab.Response, error)
 	UploadFile(interface{}, string, ...glab.OptionFunc) (*glab.ProjectFile, *glab.Response, error)
+	DownloadFile(string, ...glab.OptionFunc) (*http.Response, error)
 	// Labels
 	ListLabels(interface{}, *glab.ListLabelsOptions, ...glab.OptionFunc) ([]*glab.Label, *glab.Response, error)
 	CreateLabel(interface{}, *glab.CreateLabelOptions, ...glab.OptionFunc) (*glab.Label, *glab.Response, error)

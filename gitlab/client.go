@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -37,6 +38,24 @@ func (c *Client) GetProject(id interface{}, options ...glab.OptionFunc) (*glab.P
 
 func (c *Client) UploadFile(id interface{}, file string, options ...glab.OptionFunc) (*glab.ProjectFile, *glab.Response, error) {
 	return c.client.Projects.UploadFile(id, file, options...)
+}
+
+func (c *Client) DownloadFile(link string, options ...glab.OptionFunc) (*http.Response, error) {
+	req, err := http.NewRequest("GET", link, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("_gitlab_session", "here-session") //TODO: now api doesn't have GET, so use front api https://gitlab.com/gitlab-org/gitlab/-/issues/25838#note_740135364
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("downloading file %s code: %s", link, resp.Status)
+	}
+	return resp, nil
 }
 
 func (c *Client) CreateLabel(id interface{}, opt *glab.CreateLabelOptions, options ...glab.OptionFunc) (*glab.Label, *glab.Response, error) {

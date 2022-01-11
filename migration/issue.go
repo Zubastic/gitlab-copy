@@ -124,7 +124,7 @@ func (m *Migration) migrateIssue(issueID int) error {
 	optSort := "asc"
 	isopts := &glab.ListProjectIssuesOptions{Sort: &optSort, ListOptions: glab.ListOptions{PerPage: ResultsPerPage, Page: curPage}}
 	for {
-		issues, _, err := target.ListProjectIssues(srcProjectID, isopts)
+		issues, _, err := target.ListProjectIssues(tarProjectID, isopts)
 		if err != nil {
 			return err
 		}
@@ -289,7 +289,7 @@ func (m *Migration) migrateIssue(issueID int) error {
 		if strings.Contains(*opts.Body, "made the issue visible to everyone") {
 			continue
 		}
-		if strings.Contains(*opts.Body, "added ") && strings.HasSuffix(*opts.Body, " of time spent") {
+		if strings.HasSuffix(*opts.Body, " of time spent") {
 			continue
 		}
 
@@ -411,25 +411,17 @@ func (m *Migration) DownloadAttachments(source gitlab.GitLaber, target gitlab.Gi
 				}
 				defer file.Close()
 
-				// Get the data
 				u, err := url.Parse(m.srcProject.WebURL)
 				if err != nil {
 					return text, err
 				}
 
 				u.Path = path.Join(u.Path, "/uploads/", link)
-				resp, err := http.Get(u.String())
+				// Get the data
+				resp, err := source.DownloadFile(u.String())
 				if err != nil {
 					return text, err
 				}
-				defer resp.Body.Close()
-
-				// Check server response
-				if resp.StatusCode != http.StatusOK {
-					return text, fmt.Errorf("bad status: %s", resp.Status)
-				}
-
-				// Writer the body to file
 				_, err = io.Copy(file, resp.Body)
 				if err != nil {
 					return text, err
